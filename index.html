@@ -360,6 +360,7 @@
                             <th class="px-4 py-3 text-left font-medium text-gray-500 dark:text-gray-300">Chế độ</th>
                             <th class="px-4 py-3 text-center font-medium text-gray-500 dark:text-gray-300">Điểm số</th>
                             <th class="px-4 py-3 text-right font-medium text-gray-500 dark:text-gray-300">Phần trăm</th>
+                            <th class="px-4 py-3 text-center font-medium text-gray-500 dark:text-gray-300">Chi tiết</th>
                         </tr>
                     </thead>
                     <tbody id="historyTableBody" class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -367,6 +368,24 @@
                     </tbody>
                 </table>
                 <div id="emptyHistoryMsg" class="hidden p-6 text-center text-gray-500 dark:text-gray-400">Bạn chưa hoàn thành bài kiểm tra nào.</div>
+            </div>
+        </div>
+
+        <!-- Review View (Hidden initially) -->
+        <div id="reviewView" class="hidden">
+            <button onclick="backToHistory()" class="mb-4 md:mb-6 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Quay lại lịch sử
+            </button>
+            <div class="flex justify-between items-center mb-6 border-b dark:border-gray-700 pb-4">
+                <div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">Chi tiết bài làm</h3>
+                    <p id="reviewSubtitle" class="text-sm text-gray-500 dark:text-gray-400 mt-1"></p>
+                </div>
+                <div id="reviewScore" class="text-xl font-bold px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-lg border border-blue-200 dark:border-blue-800">
+                </div>
+            </div>
+            <div id="reviewContent" class="space-y-4">
+                <!-- Review details injected via JS -->
             </div>
         </div>
 
@@ -478,8 +497,8 @@
                 { q: "Môi trường nội tại của doanh nghiệp là:", options: ["Là các bộ chức năng trong doanh nghiệp", "Là văn hoá doanh nghiệp", "Là cơ cấu tổ chức trong doanh nghiệp", "Gồm nhiều yếu tố, trong đó có các yếu tố trên"], correct: 3, explanation: "Môi trường nội tại bao gồm tất cả các nguồn lực và cấu trúc bên trong doanh nghiệp (nhân sự, tài chính, văn hóa, năng lực sản xuất, cơ cấu tổ chức...)." },
                 { q: "Tín ngưỡng và các giá trị ......... rất bền vững và ít thay đổi nhất.", options: ["Nhân khẩu", "Sơ cấp", "Nhánh văn hoá", "Nền văn hoá"], correct: 3, explanation: "Các giá trị thuộc 'Nền văn hóa' (Core cultural values) được truyền từ đời này sang đời khác và rất khó bị thay đổi (VD: tín ngưỡng tôn giáo, truyền thống gia đình)." },
                 { q: "Môi trường Marketing của một doanh nghiệp có thể được định nghĩa là:", options: ["Một tập hợp của những nhân tố có thể kiểm soát được.", "Một tập hợp của những nhân tố không thể kiểm soát được.", "Một tập hợp của những nhân tố bên ngoài doanh nghiệp đó.", "Một tập hợp của những nhân tố có thể kiểm soát được và không thể kiểm soát được."], correct: 3, explanation: "Môi trường Marketing bao gồm môi trường nội tại (có thể kiểm soát được) và môi trường Vi mô, Vĩ mô bên ngoài (phần lớn là không thể kiểm soát được)." },
-                { q: "Khi phân tích môi trường bên trong doanh nghiệp, nhà phân tích sẽ thấy được:", options: ["Cơ hội và nguy cơ đối với doanh nghiệp", "Điểm mạnh và điểm yếu của doanh nghiệp", "Cơ hội và điểm yếu của doanh nghiệp", "Điểm mạnh và nguy cơ của doanh nghiệp"], correct: 1, explanation: "Phân tích môi trường bên trong (Internal Environment) giúp nhận diện Điểm mạnh (Strengths) và Điểm yếu (Weaknesses) trong mô hình SWOT." },
-                { q: "Trong các yếu tố sau, yếu tố nào không thuộc phạm vi của môi trường nhân khẩu học:", options: ["Quy mô và tốc độ tăng dân số.", "Cơ cấu tuổi tác trong dân cư.", "Cơ cấu của ngành kinh tế", "Thay đổi quy mô hộ gia đình."], correct: 2, explanation: "Cơ cấu của ngành kinh tế thuộc về môi trường Kinh tế (Economic Environment), không phải môi trường Nhân khẩu học (Demographic)." }
+                { q: "Trong các yếu tố sau, yếu tố nào không thuộc phạm vi của môi trường nhân khẩu học:", options: ["Quy mô và tốc độ tăng dân số.", "Cơ cấu tuổi tác trong dân cư.", "Cơ cấu của ngành kinh tế", "Thay đổi quy mô hộ gia đình."], correct: 2, explanation: "Cơ cấu của ngành kinh tế thuộc về môi trường Kinh tế (Economic Environment), không phải môi trường Nhân khẩu học (Demographic)." },
+                { q: "Việc ứng dụng mô hình PESTLE có mục tiêu chính là gì?", options: ["Phân tích điểm mạnh và điểm yếu của doanh nghiệp", "Xác định được cơ hội (Opportunities) và thách thức (Threats)", "Xác định mức độ cạnh tranh trong ngành", "Xây dựng chiến lược Marketing Mix"], correct: 1, explanation: "PESTLE dùng để phân tích môi trường vĩ mô, từ đó tìm ra O và T." }
             ],
             3: [
                 { q: "Trong các yếu tố sau đây, yếu tố nào không phải là tác nhân môi trường có thể ảnh hưởng đến hành vi mua của người tiêu dùng?", options: ["Kinh tế", "Văn hoá", "Chính trị", "Khuyến mại"], correct: 3, explanation: "Khuyến mại là yếu tố thuộc nỗ lực Marketing của doanh nghiệp (Chữ P thứ 4 - Promotion), không phải là tác nhân môi trường khách quan bên ngoài." },
@@ -487,18 +506,18 @@
                 { q: "Khái niệm “động cơ” được hiểu là:", options: ["Hành vi mang tính định hướng", "Nhu cầu có khả năng thanh toán", "Nhu cầu đã trở nên bức thiết buộc con người phải hành động để thỏa mãn nhu cầu đó", "Tác nhân kích thích của môi trường"], correct: 2, explanation: "Động cơ (Motive) là nhu cầu đã đạt tới một mức độ cường độ đủ mạnh để thúc đẩy con người hành động nhằm thỏa mãn nhu cầu đó." },
                 { q: "Theo định nghĩa, ......... của một con người được thể hiện qua sự quan tâm, hành động, quan điểm về các nhân tố xung quanh.", options: ["Nhân cách", "Tâm lý", "Quan niệm của bản thân", "Lối sống"], correct: 3, explanation: "Lối sống (Lifestyle) là cách thức sống của một người, được thể hiện thông qua các hoạt động (Activities), sự quan tâm (Interests) và quan điểm (Opinions) - AIO." },
                 { q: "Hai khách hàng có cùng động cơ như nhau nhưng khi vào cùng một cửa hàng thì lại có sự lựa chọn khác nhau về nhãn hiệu sản phẩm, đó là do họ có sự khác nhau về:", options: ["Sự chú ý", "Nhận thức (Tri giác)", "Thái độ và niềm tin", "Không câu nào đúng"], correct: 1, explanation: "Cùng một động cơ nhưng quá trình Nhận thức/Tri giác (Perception) của mỗi người về các kích thích (nhãn hiệu, quảng cáo, màu sắc) là khác nhau, dẫn đến lựa chọn khác nhau." },
-                { q: "Đặc thù của việc mua hàng của các cơ quan hành chính nhà nước là:", options: ["Mua theo ngân sách", "Chịu sự kiểm toán, đánh giá của công chúng", "Quá trình mua trải qua nhiều thủ tục phức tạp", "Nhiều đặc thù, trong đó có (A), (B) và (C)"], correct: 3, explanation: "Thị trường các cơ quan nhà nước sử dụng ngân sách công, do đó quy trình mua sắm rất phức tạp, cần đấu thầu minh bạch và chịu sự giám sát của pháp luật/công chúng." },
-                { q: "Một khách hàng đã có ý định mua chiếc xe máy A nhưng lại nhận được thông tin từ một người bạn của mình là dịch vụ bảo dưỡng của hãng không được tốt lắm. Thông tin trên là:", options: ["Một loại nhiễu trong thông điệp", "Một yếu tố cản trở quyết định mua hàng", "Một yếu tố cân nhắc trước khi sử dụng", "Thông tin thứ cấp"], correct: 2, explanation: "Trong quy trình 5 bước mua hàng, lời khuyên của bạn bè là 'Thái độ của người khác' - một yếu tố có thể cản trở và làm thay đổi ý định mua hàng ở bước Quyết định mua." },
-                { q: "Tri giác được hiểu là:", options: ["Sự nhận định trong thâm tâm về một cái gì đó", "Sự đánh giá tốt hay xấu của cá thể, được hình thành trên cơ sở những tri thức", "Thay đổi nhất định diễn ra trong hành vi của cá thể", "Một quá trình thông qua đó cá thể tuyển chọn, tổ chức và giải thích thông tin"], correct: 3, explanation: "Tri giác/Nhận thức (Perception) là quá trình con người chọn lọc, tổ chức và lý giải các thông tin thu nhận được để tạo ra một bức tranh có ý nghĩa về thế giới." }
+                { q: "Tri giác được hiểu là:", options: ["Sự nhận định trong thâm tâm về một cái gì đó", "Sự đánh giá tốt hay xấu của cá thể, được hình thành trên cơ sở những tri thức", "Thay đổi nhất định diễn ra trong hành vi của cá thể", "Một quá trình thông qua đó cá thể tuyển chọn, tổ chức và giải thích thông tin"], correct: 3, explanation: "Tri giác/Nhận thức (Perception) là quá trình con người chọn lọc, tổ chức và lý giải các thông tin thu nhận được để tạo ra một bức tranh có ý nghĩa về thế giới." },
+                { q: "Khái niệm \"Con người kinh tế\" (Homo Economicus) đặc trưng bởi khả năng vô hạn để đưa ra quyết định hợp lý được đưa ra bởi ai?", options: ["Philip Kotler (2008)", "Goroos (1990)", "John Stuart Mills (1986)", "Alfred Chandler (1962)"], correct: 2, explanation: "Trích trực tiếp từ ghi chép bài giảng phần \"Một số thuật ngữ liên quan - Con người kinh tế\"." },
+                { q: "Một khách hàng rất thích xe của hãng Honda, do đó khi nghe các đánh giá về xe Honda, người này có xu hướng chỉ ủng hộ điểm tốt và bỏ qua các điểm xấu. Đây là biểu hiện của yếu tố tâm lý nào?", options: ["Sự chú ý có chọn lọc", "Sự bóp méo có chọn lọc", "Ghi nhớ có chọn lọc", "Nhận thức có chọn lọc"], correct: 1, explanation: "Chèn ép những thông tin theo ý nghĩ cá nhân vào một khuôn khổ nhất định gọi là sự bóp méo có chọn lọc (Ví dụ hãng Honda được cô nêu trên lớp)." }
             ],
             4: [
                 { q: "Bước đầu tiên trong quá trình nghiên cứu Marketing là gì?", options: ["Chuẩn bị phương tiện máy móc để tiến hành xử lý dữ liệu", "Xác định vấn đề và mục tiêu cần nghiên cứu", "Lập kế hoach nghiên cứu", "Thu thập dữ liệu"], correct: 1, explanation: "Quy trình nghiên cứu MKT chuẩn gồm 4 bước. Bước 1 luôn là: Xác định vấn đề và mục tiêu nghiên cứu. Xác định sai vấn đề sẽ dẫn đến toàn bộ dự án thất bại." },
                 { q: "Quy trình của chuẩn bị và phân tích dữ liệu là:", options: ["Hiệu chỉnh; Mã hóa; Nhập; Phân tích", "Mã hóa; Hiệu chỉnh; Nhập; Phân tích", "Mã hóa; Nhập; Hiệu chỉnh; Phân tích", "Nhập; Mã hóa; Hiệu chỉnh; Phân tích"], correct: 0, explanation: "Dữ liệu thô thu về phải được Kiểm tra/Hiệu chỉnh (Edit) loại bỏ lỗi -> Mã hóa (Coding) thành các con số/ký tự -> Nhập liệu (Data entry) -> Phân tích bằng phần mềm." },
-                { q: "Phân tích dữ liệu tìm ra mối quan hệ giữa doanh thu và chi phí marketing là phương pháp:", options: ["Phân tích khám phá", "Phân tích thực nghiệm", "Phân tích tương quan", "Phân tích thăm dò"], correct: 2, explanation: "Phân tích tương quan (Correlation analysis) dùng để đo lường mức độ liên hệ/biến thiên cùng nhau giữa hai hay nhiều biến số (ở đây là chi phí MKT và doanh thu)." },
-                { q: "Dữ liệu thứ cấp là dữ liệu:", options: ["Có tầm quan trọng thứ nhì", "Đã có sẵn từ trước đây", "Được thu thập sau dữ liệu sơ cấp", "(B) và (C)"], correct: 1, explanation: "Dữ liệu thứ cấp (Secondary data) là thông tin đã được thu thập từ trước cho một mục đích khác, có sẵn ở bên trong hoặc bên ngoài doanh nghiệp." },
-                { q: "Dữ liệu sơ cấp có thể thu thập được bằng cách nào trong các cách dưới đây?", options: ["Quan sát", "Thực nghiệm", "Điều tra phỏng vấn", "Tất cả các cách nêu trên"], correct: 3, explanation: "Dữ liệu sơ cấp (Primary data) được thu thập lần đầu cho mục tiêu nghiên cứu hiện tại thông qua các phương pháp chính: Quan sát, Thực nghiệm và Điều tra phỏng vấn." },
-                { q: "Trong các cách điều tra phỏng vấn sau đây, cách nào cho độ tin cậy cao nhất và thông tin thu được nhiều nhất?", options: ["Phỏng vấn qua điện thoại", "Phỏng vấn bằng thư tín", "Phỏng vấn trực tiếp cá nhân", "Phỏng vấn nhóm"], correct: 2, explanation: "Phỏng vấn trực tiếp cá nhân có thể quan sát được thái độ, kiểm soát được ngữ cảnh, giải thích được câu hỏi khó nên thu được thông tin sâu và tin cậy nhất (dù chi phí rất cao)." },
-                { q: "Câu nào trong các Câu sau đây đúng nhất khi nói về nghiên cứu Marketing:", options: ["Nghiên cứu Marketing luôn tốn kém vì chi phí tiến hành phỏng vấn rất cao.", "Các doanh nghiệp cần có một bộ phận nghiên cứu Marketing cho riêng mình.", "Nghiên cứu Marketing có phạm vi rộng lớn hơn so với nghiên cứu khách hàng.", "Nhà quản trị Marketing coi nghiên cứu Marketing là định hướng cho mọi quyết định"], correct: 3, explanation: "Nghiên cứu MKT cung cấp cơ sở dữ liệu khách quan, khoa học giúp giảm rủi ro. Các nhà quản trị coi đó là định hướng, kim chỉ nam cho mọi quyết định MKT." }
+                { q: "Câu nào trong các Câu sau đây đúng nhất khi nói về nghiên cứu Marketing:", options: ["Nghiên cứu Marketing luôn tốn kém vì chi phí tiến hành phỏng vấn rất cao.", "Các doanh nghiệp cần có một bộ phận nghiên cứu Marketing cho riêng mình.", "Nghiên cứu Marketing có phạm vi rộng lớn hơn so với nghiên cứu khách hàng.", "Nhà quản trị Marketing coi nghiên cứu Marketing là định hướng cho mọi quyết định"], correct: 3, explanation: "Nghiên cứu MKT cung cấp cơ sở dữ liệu khách quan, khoa học giúp giảm rủi ro. Các nhà quản trị coi đó là định hướng, kim chỉ nam cho mọi quyết định MKT." },
+                { q: "Hệ thống thông tin Marketing (MIS) bao gồm các hệ thống con nào sau đây?", options: ["Hệ thống báo cáo nội bộ và Hệ thống nghiên cứu marketing", "Hệ thống báo cáo nội bộ, Hệ thống nghiên cứu marketing và Hệ thống thu thập thông tin", "Hệ thống báo cáo nội bộ, Hệ thống nghiên cứu marketing, Hệ thống thu thập thông tin và Hệ thống phân tích thông tin", "Hệ thống tình báo cạnh tranh và Hệ thống nghiên cứu marketing"], correct: 2, explanation: "Theo ghi chép, MIS bao gồm 4 hệ thống con giúp giải quyết nhiều vấn đề khác nhau và tối ưu hơn MR." },
+                { q: "Trong thiết kế bảng câu hỏi nghiên cứu, thang đo Likert, thang đối nghĩa và thang Stapel thuộc loại thang đo nào?", options: ["Thang đo biểu danh (Nominal scale)", "Thang đo thứ tự (Ordinal scale)", "Thang đo khoảng cách/quãng (Interval scale)", "Thang đo tỷ lệ (Ratio scale)"], correct: 2, explanation: "Thang đo khoảng/quãng có gốc 0 không có ý nghĩa, bao gồm thang Likert và Stapel." },
+                { q: "Phương pháp chọn mẫu nào tiếp cận đối tượng bằng cách thông qua người này để chạm đến những người cuối cùng, thường dùng để tiếp cận các đối tượng hiếm có, khó tìm?", options: ["Chọn mẫu ngẫu nhiên hệ thống", "Chọn mẫu định mức", "Chọn mẫu có mục đích", "Chọn mẫu tuyết lăn"], correct: 3, explanation: "Đây là một hình thức chọn mẫu phi xác suất được cô Vân đặc biệt nhấn mạnh trên lớp." },
+                { q: "Trong các phương pháp chọn mẫu phi xác suất, phương pháp lấy mẫu cho đến khi nào đủ số lượng cần thiết thì dừng lại được gọi là:", options: ["Chọn mẫu định mức", "Chọn mẫu thuận tiện", "Chọn mẫu tự lựa chọn", "Mẫu chuyên gia"], correct: 0, explanation: "Kiến thức bổ sung về Kế hoạch chọn mẫu phi xác suất." }
             ],
             5: [
                 { q: "Cần phải phân đoạn thị trường là vì:", options: ["Khách hàng thường rất đông, với nhu cầu phong phú, đa dạng, có nhiều điểm khác biệt trong khi năng lực của doanh nghiệp là có hạn", "Marketing phải đạt được mục tiêu khác nhau trên nhiều khu vực thị trường", "Khách hàng là thượng đế và phải thỏa mãn nhu cầu của khách hàng với mọi chi phí", "Cần phải tiến hành marketing sản phẩm trên nhiều khu vực thị trường"], correct: 0, explanation: "Doanh nghiệp không thể phục vụ toàn bộ thị trường vì nguồn lực có hạn và nhu cầu quá đa dạng. Phân đoạn giúp DN tập trung nguồn lực vào nhóm KH phù hợp nhất." },
@@ -507,18 +526,18 @@
                 { q: "Khái niệm thị trường mục tiêu trong marketing của doanh nghiệp là:", options: ["Những nhóm khách hàng mà doanh nghiệp cần tập trung mọi nỗ lực marketing để thu hút", "Những nhóm khách hàng đã và đang tiêu dùng sản phẩm của doanh nghiệp", "Những nhóm khách hàng đang tiêu dùng sản phẩm của đối thủ cạnh tranh", "Tập hợp tất cả các khách hàng có khả năng thanh toán"], correct: 0, explanation: "Thị trường mục tiêu (Target Market) là nhóm khách hàng mà doanh nghiệp quyết định lựa chọn để phục vụ và tập trung các nỗ lực, chương trình Marketing vào đó." },
                 { q: "Định vị sản phẩm (Product Positioning) được hiểu là:", options: ["Làm cho sản phẩm của doanh nghiệp khác biệt với sản phẩm cạnh tranh", "Đổi mới và nâng cao chất lượng sản phẩm để thu hút khách hàng", "Nỗ lực xác định vị trí sản phẩm trong tiềm thức khách hàng so với sản phẩm cạnh tranh", "Tạo hình ảnh thương hiệu đắt tiền cho sản phẩm"], correct: 2, explanation: "Định vị là việc thiết kế sản phẩm và hình ảnh của công ty nhằm chiếm được một vị trí đặc biệt và có giá trị trong tâm trí (tiềm thức) của khách hàng mục tiêu." },
                 { q: "Doanh nghiệp thực hiện 1 chương trình marketing hỗn hợp duy nhất cho toàn bộ thị trường là chiến lược:", options: ["Marketing phân biệt", "Marketing không phân biệt", "Marketing tập trung", "Marketing hỗn hợp"], correct: 1, explanation: "Marketing không phân biệt (Undifferentiated Marketing/Đại trà) là chiến lược bỏ qua sự khác biệt của các đoạn thị trường, dùng 1 loại sản phẩm và 1 chiến lược MKT duy nhất." },
-                { q: "Một cuộc nghiên cứu khách du lịch tại bãi biển Hạ Long đã chia khách thành 2 nhóm. Nhóm 1 cần đời sống về đêm sang trọng. Nhóm 2 cần 'Nắng và vui đùa'. Hai nhóm này được phân đoạn theo tiêu thức nào?", options: ["Nhân khẩu học", "Giai cấp xã hội", "Địa vị khách du lịch", "Lối sống"], correct: 3, explanation: "Sự ưu tiên các hoạt động 'vui chơi về đêm' hay 'nắng và vui đùa' phản ánh cách thức sống, sở thích và hoạt động cá nhân -> Tiêu thức Lối sống (Tâm lý học)." },
-                { q: "Nội dung nào sau đây của định vị là quan trọng nhất?", options: ["Định vị đặc tính sản phẩm", "Định vị dịch vụ sản phẩm", "Định vị nhân sự cung cấp cho sản phẩm", "Tùy theo loại sản phẩm và lợi thế cạnh tranh của doanh nghiệp"], correct: 3, explanation: "Không có phương thức định vị nào là duy nhất và tốt nhất cho mọi trường hợp. Định vị phải dựa trên đặc thù sản phẩm và lợi thế cạnh tranh cốt lõi mà DN đang có." }
+                { q: "Nội dung nào sau đây của định vị là quan trọng nhất?", options: ["Định vị đặc tính sản phẩm", "Định vị dịch vụ sản phẩm", "Định vị nhân sự cung cấp cho sản phẩm", "Tùy theo loại sản phẩm và lợi thế cạnh tranh của doanh nghiệp"], correct: 3, explanation: "Không có phương thức định vị nào là duy nhất và tốt nhất cho mọi trường hợp. Định vị phải dựa trên đặc thù sản phẩm và lợi thế cạnh tranh cốt lõi mà DN đang có." },
+                { q: "“Chiến lược là việc xác định các mục tiêu cơ bản, dài hạn của một tổ chức và việc áp dụng một chuỗi các hành động cũng như phân bổ các nguồn lực cần thiết để thực hiện các mục tiêu đó”. Đây là khái niệm của ai?", options: ["Philip Kotler", "Michael Porter", "Alfred Chandler (1962)", "John Stuart Mills"], correct: 2, explanation: "Trích đúng định nghĩa chiến lược thị trường trong ghi chép Chương 5." }
             ],
             6: [
                 { q: "Khái niệm sản phẩm theo nghĩa rộng nhất liên quan đến:", options: ["Bất cứ cái gì có thể marketing", "Bất cứ cái gì mang lại lợi ích cho khách hàng", "Bất cứ cái gì mang lại lợi ích cho khách hàng và có thể marketing", "Bất cứ hàng hóa vật chất nào khách hàng có thể mua"], correct: 2, explanation: "Trong Marketing, Sản phẩm (Product) không chỉ là vật chất hữu hình, mà là bất cứ thứ gì có thể đưa ra thị trường để gây chú ý, mua sắm, sử dụng nhằm thỏa mãn một nhu cầu." },
                 { q: "Sắp xếp nào đúng theo tiến trình của Vòng đời sản phẩm (PLC)?", options: ["Giới thiệu, bão hòa, tăng trưởng, suy thoái", "Giới thiệu, tăng trưởng, bão hòa, suy thoái", "Giới thiệu, bão hòa, suy thoái, tăng trưởng", "Tăng trưởng, trưởng thành, bão hòa, suy thoái"], correct: 1, explanation: "Vòng đời sản phẩm chuẩn gồm 4 giai đoạn: Giới thiệu (Introduction) -> Tăng trưởng (Growth) -> Bão hòa/Trưởng thành (Maturity) -> Suy thoái (Decline)." },
                 { q: "Giai đoạn nào trong chu kì sống của sản phẩm có doanh thu và lợi nhuận cao nhất, nhiều đối thủ cạnh tranh nhất nhưng lại có khả năng có chi phí thấp?", options: ["Giới thiệu", "Tăng trưởng", "Bão hoà", "Suy thoái"], correct: 1, explanation: "Trong giai đoạn Tăng trưởng (Growth), sản phẩm được thị trường chấp nhận nhanh, doanh số tăng vọt, lợi nhuận đạt đỉnh, chi phí trên đơn vị giảm (nhờ quy mô) nhưng ĐTCT cũng ồ ạt nhảy vào." },
                 { q: "Công cụ marketing hỗn hợp đối với ngành dịch vụ (7P) bao gồm:", options: ["4 P + People + Process + Packing", "4 P + People + Process + Physical evidence", "4 P + People + Process + Post purchasing", "4 P + People + Process + Positioning"], correct: 1, explanation: "Mô hình 7P dịch vụ gồm: Product, Price, Place, Promotion, và 3P mở rộng: People (Con người), Process (Quy trình), Physical evidence (Bằng chứng vật chất)." },
-                { q: "Đặc điểm vô hình của dịch vụ có hàm ý gì?", options: ["Không lưu kho được", "Không lưu kho được và không được trưng bày sẵn", "Không lưu kho được và không được cấp bản quyền", "Không lưu kho được; Không được cấp bản quyền và không được trưng bày sẵn"], correct: 3, explanation: "Vì tính vô hình (Intangibility), dịch vụ không thể nhìn, nếm, cảm nhận trước khi mua, dẫn đến không thể lưu kho, khó cấp bản quyền (vì không có thực thể vật chất) và không thể trưng bày." },
-                { q: "Việc đặt tên, nhãn hiệu riêng biệt cho từng sản phẩm của doanh nghiệp có ưu điểm:", options: ["Cung cấp thông tin về sự khác biệt của từng loại sản phẩm, không bị ảnh hưởng chéo nếu 1 sản phẩm thất bại", "Giảm chi phí quảng cáo khi tung ra sản phẩm mới", "Khách hàng dễ dàng nhận diện toàn bộ danh mục sản phẩm của công ty", "Tất cả đều đúng"], correct: 0, explanation: "Chiến lược Nhãn hiệu đa nhãn (Multi-branding) giúp giảm rủi ro. Nếu một nhãn hiệu thất bại, nó không làm ảnh hưởng đến uy tín của công ty hay các nhãn hiệu khác." },
-                { q: "Mua vé đi xem trận bóng đá là:", options: ["Mua sự cảm nhận", "Mua sự thực hiện", "Mua sản phẩm vật chất", "Mua dịch vụ"], correct: 3, explanation: "Trận bóng đá là một trải nghiệm, một sự kiện giải trí không mang hình thái vật chất để mang về sở hữu -> Nó là Dịch vụ (Entertainment Service)." },
-                { q: "Khi một nhãn hiệu hàng hóa được luật pháp thừa nhận và bảo hộ thì gọi là:", options: ["Tên nhãn hiệu", "Dấu hiệu của nhãn hiệu", "Thương hiệu (Brand)", "Nhãn hiệu hàng hóa (Trademark)"], correct: 3, explanation: "Nhãn hiệu hàng hóa (Trademark - Thương hiệu đã đăng ký) là phần của nhãn hiệu được pháp luật bảo vệ độc quyền, cấm người khác sao chép." }
+                { q: "Khi một nhãn hiệu hàng hóa được luật pháp thừa nhận và bảo hộ thì gọi là:", options: ["Tên nhãn hiệu", "Dấu hiệu của nhãn hiệu", "Thương hiệu (Brand)", "Nhãn hiệu hàng hóa (Trademark)"], correct: 3, explanation: "Nhãn hiệu hàng hóa (Trademark - Thương hiệu đã đăng ký) là phần của nhãn hiệu được pháp luật bảo vệ độc quyền, cấm người khác sao chép." },
+                { q: "Quá trình làm mới hình ảnh của một thương hiệu/doanh nghiệp dựa trên những hình ảnh và nền tảng có sẵn để xóa bỏ hình ảnh già nua, tiêu cực được gọi là:", options: ["Chiến lược cải biến dòng sản phẩm", "Chiến lược thích ứng sản phẩm", "Chiến lược tái định vị sản phẩm (Repositioning Strategy)", "Chiến lược mở rộng dòng sản phẩm"], correct: 2, explanation: "Cô định nghĩa tái định vị là làm mới hình ảnh dựa trên nền tảng sẵn có." },
+                { q: "Việc thương hiệu giày Biti's tung ra dòng sản phẩm Biti's Hunter kết hợp cùng MV Lạc Trôi (Sơn Tùng M-TP) và Đi Để Trở Về là ví dụ kinh điển cho sự thành công của chiến lược nào?", options: ["Chiến lược đa dạng hóa sản phẩm", "Chiến lược tái định vị thương hiệu", "Chiến lược duy trì hình ảnh", "Chiến lược thu hẹp chủng loại"], correct: 1, explanation: "Ví dụ thực tế cô giảng trên lớp về việc xóa bỏ hình ảnh già nua, mờ nhạt." },
+                { q: "Sự kiện hệ thống cho thuê băng đĩa Blockbuster phá sản trước sự phát triển của Netflix là minh họa cho đặc điểm nào trong giai đoạn Suy thoái (Decline) của chu kỳ sống sản phẩm?", options: ["Khối lượng tiêu thụ giảm do thị hiếu thay đổi", "Thành tựu công nghệ mới làm thay thế công nghệ cũ", "Cạnh tranh gay gắt từ các đối thủ cùng ngành", "Khách hàng có xu hướng bảo vệ môi trường"], correct: 1, explanation: "Đây là case study được giảng viên nhấn mạnh về nguyên nhân dẫn đến suy thoái sản phẩm." }
             ],
             7: [
                 { q: "Điều kiện nào sau đây thích hợp nhất cho doanh nghiệp áp dụng chiến lược giá “Hớt váng sữa” (Skimming pricing)?", options: ["Đường cầu thị trường ít co giãn", "Sản phẩm đang ở giai đoạn tăng trưởng", "Doanh nghiệp có năng lực sản xuất lớn", "Doanh nghiệp có sản phẩm độc đáo, mới lạ, được bảo vệ bản quyền"], correct: 3, explanation: "Giá hớt váng (đặt giá thật cao ban đầu) chỉ thành công khi sản phẩm cực kỳ độc đáo, ít ĐTCT thay thế ngay lập tức và tập trung vào nhóm khách hàng không nhạy cảm về giá." },
@@ -527,8 +546,8 @@
                 { q: "Định phí (FC) = 1.500 tr.đ, Biến phí (vc) = 9 tr.đ, Sản lượng (Q) = 500 SP, nếu doanh nghiệp mong muốn lợi nhuận là 15% giá thành thì giá sẽ là:", options: ["13,80 tr.đ/SP", "14,00 tr.đ/SP", "14,12 tr.đ/SP", "14,20 tr.đ/SP"], correct: 0, explanation: "Giá thành 1 SP (Z) = FC/Q + vc = 1500/500 + 9 = 12 tr.đ. Lợi nhuận mong muốn = 15% của Z = 1.8 tr.đ. Vậy Giá bán = Z + Lợi nhuận = 12 + 1.8 = 13.80 tr.đ/SP." },
                 { q: "Hãng hàng không X định giá vé hạng Thương gia bay ban ngày là 189 USD, hạng Phổ thông bay đêm là 149 USD. Chiến lược giá phân biệt này căn cứ vào:", options: ["Theo hạng hàng hóa", "Theo thời gian", "Theo loại khách hàng", "Theo hạng hàng hóa và theo thời gian"], correct: 3, explanation: "Thương gia vs Phổ thông là phân biệt theo hạng (chất lượng/vị trí). Ban ngày vs ban đêm là phân biệt theo thời điểm (thời gian sử dụng)." },
                 { q: "Các công ty điện thoại áp dụng chính sách giá gồm: cước cố định hàng tháng và cước mỗi cuộc gọi. Đó là việc áp dụng chiến lược giá nào?", options: ["Giá hai phần", "Giá phân biệt", "Giá theo hình ảnh", "Giá chiết khấu"], correct: 0, explanation: "Định giá 2 phần (Two-part pricing) thường dùng cho dịch vụ: Phần 1 là phí cố định (phí thuê bao), phần 2 là phí biến đổi tùy theo mức độ sử dụng." },
-                { q: "Doanh nghiệp bán một set các sản phẩm (máy tính, máy in, phần mềm) với mức giá thấp hơn so với việc mua riêng từng loại là biểu hiện của chiến lược:", options: ["Chiến lược giá Dumpling", "Giá độc quyền", "Chiến lược giá trọn gói (bán kèm)", "Chiến lược giá thâm nhập"], correct: 2, explanation: "Định giá trọn gói (Bundle pricing) là việc gộp nhiều sản phẩm lại và bán với một mức giá gộp rẻ hơn so với mua lẻ từng món để kích thích tiêu thụ." },
-                { q: "Mục tiêu định giá tối đa hoá lợi nhuận hiện thời thì thường tương ứng với kiểu chiến lược giá:", options: ["Thẩm thấu thị trường (Penetration)", "Trung hoà", "Hớt váng phần ngon (Skimming)", "Trọn gói"], correct: 2, explanation: "Mục tiêu tối đa hóa lợi nhuận hiện thời (thường thu hồi vốn nhanh) rất phù hợp với chiến lược Giá hớt váng (Skimming) - đặt giá thật cao ngay từ đầu." }
+                { q: "Mục tiêu định giá tối đa hoá lợi nhuận hiện thời thì thường tương ứng với kiểu chiến lược giá:", options: ["Thẩm thấu thị trường (Penetration)", "Trung hoà", "Hớt váng phần ngon (Skimming)", "Trọn gói"], correct: 2, explanation: "Mục tiêu tối đa hóa lợi nhuận hiện thời (thường thu hồi vốn nhanh) rất phù hợp với chiến lược Giá hớt váng (Skimming) - đặt giá thật cao ngay từ đầu." },
+                { q: "Việc cùng một loại mì Hảo Hảo nhưng dạng gói được bán với giá 4.000đ/gói, trong khi dạng ly được bán với giá 8.000đ/ly là hình thức định giá nào?", options: ["Định giá theo khách hàng", "Định giá theo địa điểm", "Định giá theo thời điểm", "Định giá theo hình thức sản phẩm"], correct: 3, explanation: "Ví dụ định giá phân biệt được ghi chú trực tiếp từ bài giảng trên lớp." }
             ],
             8: [
                 { q: "Kênh phân phối là tập hợp của:", options: ["Các cá nhân", "Các tổ chức", "Các cá nhân và tổ chức độc lập, phụ thuộc lẫn nhau tham gia vào quá trình đưa hàng hóa đến tay người tiêu dùng", "Các doanh nghiệp sản xuất và doanh nghiệp thương mại"], correct: 2, explanation: "Kênh phân phối là một hệ thống mạng lưới gồm các tổ chức/cá nhân độc lập (hoặc liên kết) tương tác với nhau để hoàn thành nhiệm vụ đưa sản phẩm từ nơi SX đến NTD." },
@@ -688,6 +707,7 @@
             document.getElementById('chapterSelection').style.display = 'none';
             document.getElementById('mockSelection').style.display = 'none';
             document.getElementById('historyView').style.display = 'none';
+            document.getElementById('reviewView').style.display = 'none';
             document.getElementById('quizExecution').style.display = 'none';
             window.scrollTo(0,0);
         }
@@ -787,9 +807,20 @@
 
         function submitQuiz() {
             let score = 0;
+            let details = []; // Array to store quiz details for review
             
             currentQuizData.forEach((q, idx) => {
-                const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+                const selectedInput = document.querySelector(`input[name="q${idx}"]:checked`);
+                const selectedVal = selectedInput ? parseInt(selectedInput.value) : -1;
+                
+                details.push({
+                    q: q.q,
+                    options: q.options,
+                    correct: q.correct,
+                    selected: selectedVal,
+                    explanation: q.explanation
+                });
+
                 const feedback = document.getElementById(`feedback-${idx}`);
                 const explanationBox = document.getElementById(`explanation-${idx}`);
                 const block = document.getElementById(`qblock-${idx}`);
@@ -797,25 +828,25 @@
                 document.querySelectorAll(`input[name="q${idx}"]`).forEach(inp => inp.disabled = true);
                 
                 feedback.classList.remove('hidden');
-                explanationBox.classList.remove('hidden'); // Show explanation
+                explanationBox.classList.remove('hidden');
 
-                if (selected && parseInt(selected.value) === q.correct) {
+                if (selectedInput && parseInt(selectedInput.value) === q.correct) {
                     score++;
                     feedback.innerHTML = '<i class="fa-solid fa-circle-check mr-2"></i> Chính xác!';
                     feedback.className = "mt-4 block p-3 rounded-lg text-sm font-semibold bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800";
                     block.classList.add('border-green-300', 'dark:border-green-700');
                 } else {
                     const correctText = q.options[q.correct];
-                    let text = selected 
+                    let text = selectedInput 
                         ? `<i class="fa-solid fa-circle-xmark mr-2"></i> Sai. Đáp án đúng là: <span class="text-gray-900 dark:text-white underline">${correctText}</span>` 
                         : `<i class="fa-solid fa-triangle-exclamation mr-2"></i> Chưa làm. Đáp án đúng là: <span class="text-gray-900 dark:text-white underline">${correctText}</span>`;
                     
                     feedback.innerHTML = text;
-                    feedback.className = selected 
+                    feedback.className = selectedInput 
                         ? "mt-4 block p-3 rounded-lg text-sm font-semibold bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800"
                         : "mt-4 block p-3 rounded-lg text-sm font-semibold bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800";
                     
-                    if(selected) block.classList.add('border-red-300', 'dark:border-red-700');
+                    if(selectedInput) block.classList.add('border-red-300', 'dark:border-red-700');
                 }
             });
 
@@ -827,7 +858,7 @@
             document.getElementById('submitBtn').classList.add('hidden');
             document.getElementById('retryBtn').classList.remove('hidden');
 
-            saveHistory(currentQuizLabel, score, currentQuizData.length, percent);
+            saveHistory(currentQuizLabel, score, currentQuizData.length, percent, details);
         }
 
         function retryCurrentQuiz() {
@@ -839,7 +870,7 @@
         }
 
         /* --- 5. HISTORY LOGIC --- */
-        function saveHistory(mode, score, total, percent) {
+        function saveHistory(mode, score, total, percent, details) {
             let history = JSON.parse(localStorage.getItem('mkt_quiz_history') || '[]');
             
             const newRecord = {
@@ -847,7 +878,8 @@
                 mode: mode,
                 score: score,
                 total: total,
-                percent: percent
+                percent: percent,
+                details: details
             };
 
             history.unshift(newRecord); 
@@ -859,6 +891,7 @@
         function showHistory() {
             document.getElementById('quizMenu').style.display = 'none';
             document.getElementById('historyView').style.display = 'block';
+            document.getElementById('reviewView').style.display = 'none';
 
             const history = JSON.parse(localStorage.getItem('mkt_quiz_history') || '[]');
             const tbody = document.getElementById('historyTableBody');
@@ -870,7 +903,7 @@
             } else {
                 msg.classList.add('hidden');
                 let html = '';
-                history.forEach(record => {
+                history.forEach((record, index) => {
                     const colorClass = record.percent >= 50 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
                     html += `
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition">
@@ -878,6 +911,9 @@
                             <td class="px-4 py-3 whitespace-nowrap text-blue-600 dark:text-blue-400 font-medium">${record.mode}</td>
                             <td class="px-4 py-3 whitespace-nowrap text-center text-gray-900 dark:text-gray-200 font-bold">${record.score}/${record.total}</td>
                             <td class="px-4 py-3 whitespace-nowrap text-right font-bold ${colorClass}">${record.percent}%</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-center">
+                                <button onclick="viewHistoryRecord(${index})" class="text-sm bg-blue-100 dark:bg-blue-900/40 hover:bg-blue-200 dark:hover:bg-blue-800 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-lg transition">Xem lại</button>
+                            </td>
                         </tr>
                     `;
                 });
@@ -892,7 +928,79 @@
             }
         }
 
-    </script>
+        function viewHistoryRecord(index) {
+            const history = JSON.parse(localStorage.getItem('mkt_quiz_history') || '[]');
+            const record = history[index];
+            if (!record || !record.details) return;
 
+            document.getElementById('historyView').style.display = 'none';
+            document.getElementById('reviewView').style.display = 'block';
+
+            document.getElementById('reviewSubtitle').innerText = `${record.mode} - Ngày làm bài: ${record.date}`;
+            const colorClass = record.percent >= 50 ? 'text-green-600 dark:text-green-400 border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/30' : 'text-red-600 dark:text-red-400 border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/30';
+            document.getElementById('reviewScore').className = `text-xl font-bold px-4 py-2 rounded-lg border ${colorClass}`;
+            document.getElementById('reviewScore').innerText = `${record.score}/${record.total} (${record.percent}%)`;
+
+            let html = '';
+            record.details.forEach((item, idx) => {
+                const isCorrect = item.selected === item.correct;
+                const borderClass = isCorrect ? 'border-green-300 dark:border-green-700' : (item.selected === -1 ? 'border-orange-300 dark:border-orange-700' : 'border-red-300 dark:border-red-700');
+                
+                html += `
+                    <div class="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-xl shadow-sm border ${borderClass}">
+                        <div class="font-bold text-gray-800 dark:text-gray-100 mb-3 text-base md:text-lg">
+                            <span class="text-blue-600 dark:text-blue-400 mr-1">Câu ${idx + 1}:</span> ${item.q}
+                        </div>
+                        <div class="space-y-2 mb-4">
+                `;
+                
+                item.options.forEach((opt, optIdx) => {
+                    let icon = '';
+                    let textClass = 'text-gray-700 dark:text-gray-200';
+                    let bgClass = 'bg-gray-50 dark:bg-gray-700/50';
+                    
+                    if (optIdx === item.correct) {
+                        icon = '<i class="fa-solid fa-check text-green-500 dark:text-green-400 mr-2"></i>';
+                        textClass = 'font-bold text-green-700 dark:text-green-400';
+                        bgClass = 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800';
+                    } else if (optIdx === item.selected) {
+                        icon = '<i class="fa-solid fa-xmark text-red-500 dark:text-red-400 mr-2"></i>';
+                        textClass = 'font-semibold text-red-700 dark:text-red-400 line-through';
+                        bgClass = 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800';
+                    } else {
+                        icon = '<span class="mr-6"></span>'; // indent for alignment
+                        bgClass = 'border border-gray-100 dark:border-gray-700';
+                    }
+                    
+                    html += `
+                        <div class="p-3 rounded-lg flex items-center ${bgClass}">
+                            ${icon} <span class="${textClass} text-sm md:text-base">${opt}</span>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+                
+                if (item.explanation) {
+                    html += `
+                        <div class="mt-2 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                            <i class="fa-solid fa-lightbulb text-yellow-500 mr-2 text-lg"></i> <strong class="text-blue-800 dark:text-blue-300">Giải thích:</strong> 
+                            <span class="ml-1">${item.explanation}</span>
+                        </div>
+                    `;
+                }
+                html += `</div>`;
+            });
+            document.getElementById('reviewContent').innerHTML = html;
+            window.scrollTo(0,0);
+        }
+
+        function backToHistory() {
+            document.getElementById('reviewView').style.display = 'none';
+            document.getElementById('historyView').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+    </script>
 </body>
 </html>
